@@ -450,6 +450,9 @@
       if(res.ok){
         formStatus.className='form-status';
         form.style.display='none';
+        // Hide voice player on confirmation
+        document.querySelector('.voice').style.display='none';
+        document.querySelector('.click-me') && (document.querySelector('.click-me').style.display='none');
         // Personalize with their first name
         var nameVal = document.getElementById('fname').value.trim();
         var firstName = nameVal.split(' ')[0];
