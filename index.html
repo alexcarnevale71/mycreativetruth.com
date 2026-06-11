@@ -323,8 +323,11 @@
     </form>
 
     <div class="confirm" id="confirm">
-      <h3>Got it. I already feel like I know you a little.</h3>
-      <p>I'll listen to your voice note and write back personally within 24 hours. Come exactly as you are.</p>
+      <h3 id="confirmName"></h3>
+      <p>What you just did takes a lot of courage: reaching out, being honest, and opening up. Be proud of yourself, because I am proud of you.</p>
+      <p style="color:var(--ink-soft);font-size:0.95rem;max-width:40ch;margin:16px auto 0;line-height:1.6;">You have a gift, and although you may see yourself as a caterpillar, I promise you, you are going through a metamorphosis, and it is absolutely certain that you are becoming a butterfly.</p>
+      <p style="color:var(--ink-soft);font-size:0.95rem;max-width:40ch;margin:16px auto 0;line-height:1.6;">I didn't really have someone understand the depth that I carry, so hear this when I say it: I am so excited that I get the opportunity to work with someone like you who is on the exact same path that I was on.</p>
+      <p style="color:var(--ink-soft);font-size:0.95rem;max-width:40ch;margin:16px auto 0;line-height:1.6;">As soon as I see this, I'll shoot you a message. Talk soon.</p>
       <p class="sig">— Alex</p>
     </div>
   </div>
@@ -393,6 +396,8 @@
           playbackArea.classList.add('show');
           statusEl.textContent='sounds good ✓';
           statusEl.className='record-status active';
+          // Store blob for FormData upload
+          window._audioBlob = blob;
           var reader=new FileReader();
           reader.onload=function(ev){audioData.value=ev.target.result;};
           reader.readAsDataURL(blob);
@@ -431,15 +436,24 @@
     formStatus.className='form-status sending';
     formStatus.textContent='Sending…';
     var data=new FormData(form);
-    // EDIT POINT 6: replace YOUR_FORM_ID with your Formspree ID from formspree.io
+    // Append audio blob as actual file if recorded
+    if(window._audioBlob){
+      data.append('voice_note', window._audioBlob, 'voice-note.webm');
+      data.delete('audioData'); // remove base64 version
+    }
     try{
       var res=await fetch('https://formspree.io/f/xlgkwbpo',{
-        method:'POST',body:data,
+        method:'POST',
+        body:data,
         headers:{Accept:'application/json'}
       });
       if(res.ok){
         formStatus.className='form-status';
         form.style.display='none';
+        // Personalize with their first name
+        var nameVal = document.getElementById('fname').value.trim();
+        var firstName = nameVal.split(' ')[0];
+        document.getElementById('confirmName').textContent = firstName + ',';
         confirm.classList.add('show');
         confirm.scrollIntoView({behavior:'smooth',block:'center'});
       } else { throw new Error(); }
