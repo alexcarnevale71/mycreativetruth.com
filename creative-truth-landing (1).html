@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Creative Truth — Alex Carnev</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,340&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#111111;
+    --bg-soft:#181818;
+    --ink:#f0f0f0;
+    --ink-soft:#a8a8a8;
+    --ink-faint:#585858;
+    --accent:#f5c842;      /* true yellow — artist word + glow */
+    --line:rgba(255,255,255,0.08);
+    --maxw:640px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:"Figtree",-apple-system,system-ui,sans-serif;
+    font-size:18px;
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:#333;color:#f0f0f0;}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px;}
+
+  /* HERO */
+  .hero{
+    min-height:100svh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:80px 28px 72px;
+  }
+  /* EDIT POINT 1 — eyebrow: remove "· Alex Carnev" or change brand name here */
+  .eyebrow{
+    font-size:11.5px;
+    letter-spacing:0.46em;
+    text-transform:uppercase;
+    color:var(--ink-faint);
+    font-weight:600;
+    margin:0 0 36px;
+  }
+  h1{
+    font-family:"Fraunces",Georgia,serif;
+    font-weight:300;
+    font-size:clamp(2.2rem,7.5vw,3.6rem);
+    line-height:1.1;
+    letter-spacing:-0.015em;
+    margin:0 0 18px;
+    max-width:13ch;
+  }
+  /* The single accent use — italic word in headline */
+  h1 em{font-style:italic;color:var(--accent);}
+  .hero-sub{
+    color:var(--ink-soft);
+    font-size:clamp(1rem,2.5vw,1.12rem);
+    margin:0 0 64px;
+    max-width:28ch;
+  }
+
+  /* VOICE NOTE */
+  .voice{
+    position:relative;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:16px;
+    margin-bottom:52px;
+  }
+  .breath{
+    position:absolute;
+    top:50%;left:50%;
+    width:300px;height:300px;
+    transform:translate(-50%,-50%);
+    border-radius:50%;
+    background:radial-gradient(circle,rgba(245,200,66,0.22) 0%,rgba(245,200,66,0.07) 42%,transparent 68%);
+    pointer-events:none;
+    animation:breathe 10s ease-in-out infinite;
+  }
+  @keyframes breathe{
+    0%,100%{transform:translate(-50%,-50%) scale(0.80);opacity:0.5;}
+    45%{transform:translate(-50%,-50%) scale(1.14);opacity:1;}
+  }
+  .play{
+    position:relative;z-index:1;
+    width:88px;height:88px;border-radius:50%;
+    border:1px solid rgba(255,255,255,0.18);
+    background:rgba(255,255,255,0.04);
+    backdrop-filter:blur(2px);
+    color:var(--ink);
+    cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    transition:transform .22s ease, background .22s ease, border-color .22s ease;
+  }
+  .play:hover{
+    transform:scale(1.06);
+    background:rgba(255,255,255,0.08);
+    border-color:rgba(255,255,255,0.32);
+  }
+  .play:focus-visible{outline:none;box-shadow:0 0 0 3px rgba(255,255,255,0.18);}
+  .play svg{width:26px;height:26px;display:block;margin-left:3px;}
+  /* EDIT POINT 2 — voice label: change the text "Hear it from me first" below */
+  .voice-label{
+    position:relative;z-index:1;
+    font-size:13px;letter-spacing:0.05em;
+    color:var(--ink-faint);
+  }
+
+  .down{
+    color:var(--ink-faint);font-size:11px;
+    letter-spacing:0.3em;text-transform:uppercase;
+  }
+
+  /* CALENDLY SECTION */
+  .cal-section{background:var(--bg-soft);padding:80px 0 96px;}
+  /* EDIT POINT 3 — section heading: change or remove "Let's talk." below */
+  .cal-heading{
+    font-family:"Fraunces",serif;font-weight:300;font-style:italic;
+    font-size:clamp(1.4rem,4vw,1.85rem);
+    margin:0 0 8px;line-height:1.28;
+  }
+  .cal-sub{color:var(--ink-soft);margin:0 0 36px;font-size:0.98rem;max-width:40ch;}
+  .quiet-rule{width:28px;height:1px;background:rgba(255,255,255,0.15);margin:0 0 32px;}
+
+  /* Calendly embed wrapper */
+  .calendly-wrap{
+    border-radius:4px;
+    overflow:hidden;
+    border:1px solid var(--line);
+  }
+
+  /* FOOTER */
+  footer{
+    text-align:center;padding:44px 28px 60px;
+    border-top:1px solid var(--line);
+    color:var(--ink-faint);font-size:12px;letter-spacing:0.05em;
+  }
+  footer b{color:rgba(255,255,255,0.35);font-weight:500;}
+
+  @media(max-width:520px){
+    .breath{width:240px;height:240px;}
+    .cal-section{padding:60px 0 76px;}
+  }
+  @media(prefers-reduced-motion:reduce){
+    .breath{animation:none;opacity:0.6;}
+    html{scroll-behavior:auto;}
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+  <!-- EDIT POINT 1: remove "· Alex Carnev" or change anything in this line -->
+  <p class="eyebrow">Creative Truth</p>
+
+  <h1>You're not too sensitive — you're an <em>artist</em>.</h1>
+  <p class="hero-sub">Start living your best creative life.</p>
+
+  <div class="voice">
+    <div class="breath" aria-hidden="true"></div>
+    <button class="play" id="play" aria-label="Play voice note from Alex">
+      <svg id="playIcon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M8 5v14l11-7z"/>
+      </svg>
+    </button>
+    <!-- EDIT POINT 2: change the label text below to whatever you want under the play button -->
+    <span class="voice-label" id="voiceLabel">A minute, in my voice</span>
+    <audio id="audio" preload="none">
+      <!-- Add your recording: <source src="voice-note.mp3" type="audio/mpeg"> -->
+    </audio>
+  </div>
+
+  <p class="down">if it lands &nbsp;↓</p>
+</header>
+
+<!-- CALENDLY EMBED -->
+<section class="cal-section" id="start">
+  <div class="wrap">
+    <div class="quiet-rule"></div>
+    <!-- EDIT POINT 3: change or delete the heading and subline below -->
+    <p class="cal-heading">Let's talk.</p>
+    <p class="cal-sub">No pitch. No pressure. Pick a time that feels right — and come exactly as you are.</p>
+
+    <!-- Calendly inline embed -->
+    <div class="calendly-wrap">
+      <!-- PASTE YOUR CALENDLY LINK INTO THE data-url ATTRIBUTE BELOW -->
+      <div
+        class="calendly-inline-widget"
+        data-url="https://calendly.com/your-link?hide_event_type_details=1&hide_gdpr_banner=1&background_color=181818&text_color=f0f0f0&primary_color=f5c842"
+        style="min-width:280px;height:700px;">
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <b>Creative Truth</b> &nbsp;·&nbsp; mycreativetruth.com
+</footer>
+
+<script>
+/* Voice note player */
+(function(){
+  var btn=document.getElementById('play');
+  var icon=document.getElementById('playIcon');
+  var label=document.getElementById('voiceLabel');
+  var audio=document.getElementById('audio');
+  var playPath='M8 5v14l11-7z';
+  var pausePath='M6 5h4v14H6zM14 5h4v14h-4z';
+  var hasSource=!!audio.querySelector('source');
+  btn.addEventListener('click',function(){
+    var playing=btn.classList.toggle('is-playing');
+    icon.querySelector('path').setAttribute('d',playing?pausePath:playPath);
+    if(hasSource){ playing?audio.play():audio.pause(); }
+    else{ label.textContent=playing?'Listening…':'A minute, in my voice'; }
+  });
+  if(hasSource){
+    audio.addEventListener('ended',function(){
+      btn.classList.remove('is-playing');
+      icon.querySelector('path').setAttribute('d',playPath);
+    });
+  }
+})();
+</script>
+
+<!-- Calendly script — loads the embed -->
+<script src="https://assets.calendly.com/assets/external/widget.js" async></script>
+
+</body>
+</html>
