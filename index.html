@@ -10,162 +10,247 @@
 <style>
   :root{
     --bg:#111111;
-    --bg-soft:#181818;
     --ink:#f0f0f0;
     --ink-soft:#a8a8a8;
-    --ink-faint:#585858;
-    --accent:#f5c842;      /* true yellow — artist word + glow */
-    --line:rgba(255,255,255,0.08);
-    --maxw:640px;
+    --ink-faint:#525252;
+    --accent:#f5c842;
+    --line:rgba(255,255,255,0.07);
+    --maxw:580px;
   }
-  *{box-sizing:border-box;}
+  *{box-sizing:border-box;margin:0;padding:0;}
   html{scroll-behavior:smooth;}
   body{
-    margin:0;
     background:var(--bg);
     color:var(--ink);
     font-family:"Figtree",-apple-system,system-ui,sans-serif;
-    font-size:18px;
+    font-size:17px;
     line-height:1.7;
     -webkit-font-smoothing:antialiased;
   }
   ::selection{background:#333;color:#f0f0f0;}
-  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px;}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px;}
 
-  /* HERO */
-  .hero{
-    min-height:100svh;
-    display:flex;
-    flex-direction:column;
+  .page{
+    display:flex;flex-direction:column;
     align-items:center;
-    justify-content:center;
-    text-align:center;
-    padding:80px 28px 72px;
+    padding:80px 24px 100px;
   }
-  /* EDIT POINT 1 — eyebrow: remove "· Alex Carnev" or change brand name here */
+
+  /* EYEBROW */
   .eyebrow{
-    font-size:11.5px;
-    letter-spacing:0.46em;
-    text-transform:uppercase;
-    color:var(--ink-faint);
-    font-weight:600;
-    margin:0 0 36px;
+    font-size:11px;letter-spacing:0.48em;
+    text-transform:uppercase;color:var(--ink-faint);
+    font-weight:600;margin-bottom:36px;text-align:center;
   }
+
+  /* HEADLINE */
   h1{
     font-family:"Fraunces",Georgia,serif;
     font-weight:300;
-    font-size:clamp(2.2rem,7.5vw,3.6rem);
-    line-height:1.1;
-    letter-spacing:-0.015em;
-    margin:0 0 18px;
-    max-width:13ch;
+    font-size:clamp(2rem,8vw,3.4rem);
+    line-height:1.1;letter-spacing:-0.015em;
+    margin-bottom:16px;max-width:13ch;text-align:center;
   }
-  /* The single accent use — italic word in headline */
   h1 em{font-style:italic;color:var(--accent);}
   .hero-sub{
     color:var(--ink-soft);
-    font-size:clamp(1rem,2.5vw,1.12rem);
-    margin:0 0 64px;
-    max-width:28ch;
+    font-size:clamp(0.95rem,3vw,1.08rem);
+    margin-bottom:20px;max-width:26ch;text-align:center;
   }
 
-  /* VOICE NOTE */
+  /* CLICK ME nudge */
+  .click-me{
+    font-size:10px;
+    letter-spacing:0.38em;
+    text-transform:uppercase;
+    color:var(--ink-faint);
+    margin-bottom:18px;
+    text-align:center;
+  }
+
+  /* VOICE PLAYER */
   .voice{
     position:relative;
-    display:flex;
-    flex-direction:column;
+    display:flex;flex-direction:column;
     align-items:center;
-    gap:16px;
-    margin-bottom:52px;
+    margin-bottom:80px;width:100%;
   }
   .breath{
-    position:absolute;
-    top:50%;left:50%;
-    width:300px;height:300px;
+    position:absolute;top:50%;left:50%;
+    width:270px;height:270px;
     transform:translate(-50%,-50%);
     border-radius:50%;
-    background:radial-gradient(circle,rgba(245,200,66,0.22) 0%,rgba(245,200,66,0.07) 42%,transparent 68%);
+    background:radial-gradient(circle,
+      rgba(245,200,66,0.42) 0%,
+      rgba(245,200,66,0.16) 35%,
+      rgba(245,200,66,0.05) 57%,
+      transparent 71%);
     pointer-events:none;
-    animation:breathe 10s ease-in-out infinite;
+    animation:breathe 9s ease-in-out infinite;
   }
   @keyframes breathe{
-    0%,100%{transform:translate(-50%,-50%) scale(0.80);opacity:0.5;}
-    45%{transform:translate(-50%,-50%) scale(1.14);opacity:1;}
+    0%,100%{transform:translate(-50%,-50%) scale(0.78);opacity:0.55;}
+    45%{transform:translate(-50%,-50%) scale(1.16);opacity:1;}
   }
   .play{
     position:relative;z-index:1;
-    width:88px;height:88px;border-radius:50%;
-    border:1px solid rgba(255,255,255,0.18);
-    background:rgba(255,255,255,0.04);
-    backdrop-filter:blur(2px);
-    color:var(--ink);
-    cursor:pointer;
+    width:86px;height:86px;border-radius:50%;
+    border:1px solid rgba(255,255,255,0.2);
+    background:rgba(255,255,255,0.05);
+    backdrop-filter:blur(3px);color:var(--ink);cursor:pointer;
     display:flex;align-items:center;justify-content:center;
-    transition:transform .22s ease, background .22s ease, border-color .22s ease;
+    transition:transform .22s ease,background .22s ease,border-color .22s ease;
+    -webkit-tap-highlight-color:transparent;
   }
-  .play:hover{
-    transform:scale(1.06);
-    background:rgba(255,255,255,0.08);
-    border-color:rgba(255,255,255,0.32);
+  .play:hover,.play:active{
+    transform:scale(1.07);
+    background:rgba(255,255,255,0.09);
+    border-color:rgba(255,255,255,0.35);
   }
   .play:focus-visible{outline:none;box-shadow:0 0 0 3px rgba(255,255,255,0.18);}
   .play svg{width:26px;height:26px;display:block;margin-left:3px;}
-  /* EDIT POINT 2 — voice label: change the text "Hear it from me first" below */
-  .voice-label{
+  .progress-wrap{
     position:relative;z-index:1;
-    font-size:13px;letter-spacing:0.05em;
-    color:var(--ink-faint);
+    width:72px;height:2px;
+    background:rgba(255,255,255,0.08);
+    border-radius:2px;margin-top:18px;overflow:hidden;
+  }
+  .progress-bar{
+    height:100%;width:0%;background:var(--accent);
+    border-radius:2px;transition:width .25s linear;
   }
 
-  .down{
-    color:var(--ink-faint);font-size:11px;
-    letter-spacing:0.3em;text-transform:uppercase;
+  /* FORM */
+  .form-wrap{width:100%;max-width:var(--maxw);}
+  .fields{display:flex;flex-direction:column;gap:28px;margin-bottom:32px;}
+  .field label{
+    display:block;font-size:13px;letter-spacing:0.01em;
+    color:var(--ink-soft);margin-bottom:9px;font-weight:500;line-height:1.5;
   }
+  input[type=text],input[type=email],textarea{
+    width:100%;background:transparent;
+    border:none;border-bottom:1px solid var(--line);
+    color:var(--ink);font-family:inherit;
+    font-size:1rem;padding:9px 0;
+    transition:border-color .18s ease;
+    border-radius:0;-webkit-appearance:none;
+  }
+  textarea{resize:none;min-height:64px;line-height:1.6;}
+  input::placeholder,textarea::placeholder{color:var(--ink-faint);}
+  input:focus,textarea:focus{outline:none;border-bottom-color:var(--accent);}
 
-  /* CALENDLY SECTION */
-  .cal-section{background:var(--bg-soft);padding:80px 0 96px;}
-  /* EDIT POINT 3 — section heading: change or remove "Let's talk." below */
-  .cal-heading{
+  /* RECORD */
+  .record-area{
+    width:100%;display:flex;flex-direction:column;align-items:center;gap:14px;
+    padding:4px 0 8px;
+  }
+  .record-label{
     font-family:"Fraunces",serif;font-weight:300;font-style:italic;
-    font-size:clamp(1.4rem,4vw,1.85rem);
-    margin:0 0 8px;line-height:1.28;
+    font-size:clamp(1rem,3.5vw,1.2rem);
+    color:var(--ink-soft);text-align:center;
+    line-height:1.4;max-width:30ch;
   }
-  .cal-sub{color:var(--ink-soft);margin:0 0 36px;font-size:0.98rem;max-width:40ch;}
-  .quiet-rule{width:28px;height:1px;background:rgba(255,255,255,0.15);margin:0 0 32px;}
+  .record-btn{
+    width:64px;height:64px;border-radius:50%;
+    border:1px solid rgba(255,255,255,0.18);
+    background:rgba(255,255,255,0.04);
+    color:var(--ink);cursor:pointer;font-size:22px;
+    display:flex;align-items:center;justify-content:center;
+    transition:transform .2s ease,background .2s ease,border-color .2s ease;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .record-btn:hover{transform:scale(1.05);background:rgba(255,255,255,0.08);}
+  .record-btn.recording{
+    border-color:rgba(220,60,60,0.7);
+    background:rgba(220,60,60,0.08);
+    animation:pulse-rec 1.4s ease-in-out infinite;
+  }
+  @keyframes pulse-rec{
+    0%,100%{box-shadow:0 0 0 0 rgba(220,60,60,0.25);}
+    50%{box-shadow:0 0 0 8px rgba(220,60,60,0);}
+  }
+  .record-status{
+    font-size:12.5px;color:var(--ink-faint);
+    letter-spacing:0.04em;text-align:center;min-height:18px;
+  }
+  .record-status.active{color:var(--ink-soft);}
+  .record-playback{display:none;flex-direction:column;align-items:center;gap:10px;width:100%;}
+  .record-playback.show{display:flex;}
+  .record-playback audio{
+    width:100%;max-width:300px;
+    filter:invert(1) hue-rotate(180deg);
+    border-radius:40px;opacity:0.65;
+  }
+  .redo-btn{
+    font-size:12px;color:var(--ink-faint);
+    background:none;border:none;cursor:pointer;
+    font-family:inherit;text-decoration:underline;
+    text-underline-offset:3px;padding:0;
+  }
+  .redo-btn:hover{color:var(--ink-soft);}
 
-  /* Calendly embed wrapper */
-  .calendly-wrap{
-    border-radius:4px;
-    overflow:hidden;
-    border:1px solid var(--line);
+  /* SUBMIT */
+  .submit{
+    width:100%;background:var(--accent);color:#111;
+    border:none;border-radius:40px;
+    font-family:inherit;font-weight:600;font-size:1rem;
+    padding:16px 24px;cursor:pointer;
+    transition:transform .2s ease,background .2s ease,opacity .2s ease;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .submit:hover{transform:translateY(-2px);background:#ffd966;}
+  .submit:active{transform:scale(0.98);}
+  .submit:disabled{opacity:0.45;cursor:not-allowed;transform:none;}
+  .submit:focus-visible{outline:none;box-shadow:0 0 0 3px rgba(245,200,66,0.32);}
+  .form-status{
+    font-size:0.88rem;margin-top:12px;
+    display:none;padding:10px 14px;border-radius:6px;text-align:center;
+  }
+  .form-status.sending{display:block;color:var(--ink-soft);background:rgba(255,255,255,0.04);}
+  .form-status.error{display:block;color:#f87171;background:rgba(248,113,113,0.08);}
+
+  /* CONFIRM */
+  .confirm{display:none;text-align:center;width:100%;}
+  .confirm.show{display:block;animation:rise .55s ease both;}
+  @keyframes rise{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+  .confirm h3{
+    font-family:"Fraunces",serif;font-weight:300;
+    font-size:clamp(1.4rem,5vw,1.8rem);
+    margin-bottom:12px;line-height:1.28;
+  }
+  .confirm p{color:var(--ink-soft);font-size:0.95rem;max-width:36ch;margin:0 auto;line-height:1.6;}
+  .confirm .sig{
+    margin-top:20px;color:var(--ink-faint);
+    font-style:italic;font-family:"Fraunces",serif;font-size:1rem;
   }
 
   /* FOOTER */
   footer{
-    text-align:center;padding:44px 28px 60px;
+    text-align:center;padding:40px 24px 56px;
     border-top:1px solid var(--line);
-    color:var(--ink-faint);font-size:12px;letter-spacing:0.05em;
+    color:var(--ink-faint);font-size:11.5px;letter-spacing:0.05em;
   }
-  footer b{color:rgba(255,255,255,0.35);font-weight:500;}
+  footer b{color:rgba(255,255,255,0.28);font-weight:500;}
 
-  @media(max-width:520px){
-    .breath{width:240px;height:240px;}
-    .cal-section{padding:60px 0 76px;}
+  @media(max-width:480px){
+    .breath{width:220px;height:220px;}
+    .page{padding:64px 20px 88px;}
   }
   @media(prefers-reduced-motion:reduce){
-    .breath{animation:none;opacity:0.6;}
+    .breath{animation:none;opacity:0.7;}
+    .record-btn.recording{animation:none;}
     html{scroll-behavior:auto;}
   }
 </style>
 </head>
 <body>
 
-<!-- HERO -->
-<header class="hero">
-  <!-- EDIT POINT 1: remove "· Alex Carnev" or change anything in this line -->
+<div class="page">
+
+  <!-- EDIT POINT 1: brand name -->
   <p class="eyebrow">Creative Truth</p>
 
-  <h1>You're not too sensitive — you're an <em>artist</em>.</h1>
+  <h1>You're not too&nbsp;sensitive.<br><em>You're an artist.</em></h1>
   <p class="hero-sub">Start living your best creative life.</p>
 
   <div class="voice">
@@ -175,67 +260,197 @@
         <path d="M8 5v14l11-7z"/>
       </svg>
     </button>
-    <!-- EDIT POINT 2: change the label text below to whatever you want under the play button -->
-    <span class="voice-label" id="voiceLabel">A minute, in my voice</span>
+    <div class="progress-wrap" aria-hidden="true">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+    <!-- EDIT POINT 2: nudge text under play button -->
+    <p class="click-me" style="margin-top:14px;">click me</p>
     <audio id="audio" preload="none">
-      <!-- Add your recording: <source src="voice-note.mp3" type="audio/mpeg"> -->
+      <!-- EDIT POINT 3: your voice note file -->
+      <!-- <source src="voice-note.mp3" type="audio/mpeg"> -->
     </audio>
   </div>
 
-  <p class="down">if it lands &nbsp;↓</p>
-</header>
+  <!-- FORM -->
+  <div class="form-wrap" id="formWrap">
+    <form id="ctForm">
+      <div class="fields">
 
-<!-- CALENDLY EMBED -->
-<section class="cal-section" id="start">
-  <div class="wrap">
-    <div class="quiet-rule"></div>
-    <!-- EDIT POINT 3: change or delete the heading and subline below -->
-    <p class="cal-heading">Let's talk.</p>
-    <p class="cal-sub">No pitch. No pressure. Pick a time that feels right — and come exactly as you are.</p>
+        <div class="field">
+          <label for="fname">Your name</label>
+          <input type="text" id="fname" name="name" placeholder="First name is fine" required />
+        </div>
+        <div class="field">
+          <label for="email">Your email</label>
+          <input type="email" id="email" name="email" placeholder="So I can write back" required />
+        </div>
 
-    <!-- Calendly inline embed -->
-    <div class="calendly-wrap">
-      <!-- PASTE YOUR CALENDLY LINK INTO THE data-url ATTRIBUTE BELOW -->
-      <div
-        class="calendly-inline-widget"
-        data-url="https://calendly.com/your-link?hide_event_type_details=1&hide_gdpr_banner=1&background_color=181818&text_color=f0f0f0&primary_color=f5c842"
-        style="min-width:280px;height:700px;">
+        <div class="field">
+          <label for="ig">Your Instagram</label>
+          <input type="text" id="ig" name="instagram" placeholder="@yourhandle" />
+        </div>
+
+        <!-- VOICE NOTE BACK — prominent, right after name/email -->
+        <div class="field" style="text-align:center;padding:20px 0 8px;">
+          <p style="font-family:'Fraunces',serif;font-weight:300;font-style:italic;font-size:clamp(1.1rem,4vw,1.35rem);color:var(--ink-soft);margin-bottom:22px;line-height:1.4;">Send me a voice note back</p>
+          <div class="record-area">
+            <button type="button" class="record-btn" id="recordBtn" aria-label="Start recording" style="width:80px;height:80px;font-size:28px;">🎙</button>
+            <p class="record-status" id="recordStatus">tap to record</p>
+            <div class="record-playback" id="playbackArea">
+              <audio id="playbackAudio" controls></audio>
+              <button type="button" class="redo-btn" id="redoBtn">record again</button>
+            </div>
+          </div>
+          <input type="hidden" id="audioData" name="audioData" />
+        </div>
+
+        <!-- EDIT POINT 4: first question -->
+        <div class="field">
+          <label for="q1">What does living your best creative life look like — and why does it matter to you?</label>
+          <textarea id="q1" name="q1" rows="3" required></textarea>
+        </div>
+
+        <!-- EDIT POINT 5: second question -->
+        <div class="field">
+          <label for="q2">What's been stopping you? Just be honest. I like to listen.</label>
+          <textarea id="q2" name="q2" rows="3" required></textarea>
+        </div>
+
       </div>
+
+      <button type="submit" class="submit" id="submitBtn">Send it →</button>
+      <div class="form-status" id="formStatus"></div>
+    </form>
+
+    <div class="confirm" id="confirm">
+      <h3>Got it. I already feel like I know you a little.</h3>
+      <p>I'll listen to your voice note and write back personally within 24 hours. Come exactly as you are.</p>
+      <p class="sig">— Alex</p>
     </div>
   </div>
-</section>
+
+</div>
 
 <footer>
   <b>Creative Truth</b> &nbsp;·&nbsp; mycreativetruth.com
 </footer>
 
 <script>
-/* Voice note player */
+/* Alex's voice player */
 (function(){
   var btn=document.getElementById('play');
   var icon=document.getElementById('playIcon');
-  var label=document.getElementById('voiceLabel');
+  var bar=document.getElementById('progressBar');
   var audio=document.getElementById('audio');
   var playPath='M8 5v14l11-7z';
   var pausePath='M6 5h4v14H6zM14 5h4v14h-4z';
-  var hasSource=!!audio.querySelector('source');
+  if(!audio.querySelector('source')) return;
   btn.addEventListener('click',function(){
-    var playing=btn.classList.toggle('is-playing');
-    icon.querySelector('path').setAttribute('d',playing?pausePath:playPath);
-    if(hasSource){ playing?audio.play():audio.pause(); }
-    else{ label.textContent=playing?'Listening…':'A minute, in my voice'; }
+    var p=btn.classList.toggle('is-playing');
+    icon.querySelector('path').setAttribute('d',p?pausePath:playPath);
+    p?audio.play():audio.pause();
   });
-  if(hasSource){
-    audio.addEventListener('ended',function(){
-      btn.classList.remove('is-playing');
-      icon.querySelector('path').setAttribute('d',playPath);
-    });
+  audio.addEventListener('timeupdate',function(){
+    if(audio.duration) bar.style.width=(audio.currentTime/audio.duration*100)+'%';
+  });
+  audio.addEventListener('ended',function(){
+    btn.classList.remove('is-playing');
+    icon.querySelector('path').setAttribute('d',playPath);
+    bar.style.width='0%';
+  });
+})();
+
+/* Browser recorder */
+(function(){
+  var recordBtn=document.getElementById('recordBtn');
+  var statusEl=document.getElementById('recordStatus');
+  var playbackArea=document.getElementById('playbackArea');
+  var playbackAudio=document.getElementById('playbackAudio');
+  var redoBtn=document.getElementById('redoBtn');
+  var audioData=document.getElementById('audioData');
+  var mediaRecorder=null,chunks=[],stream=null,recording=false;
+
+  function reset(){
+    recording=false;
+    recordBtn.classList.remove('recording');
+    recordBtn.innerHTML='🎙';
+    statusEl.textContent='tap to record';
+    statusEl.className='record-status';
+    playbackArea.classList.remove('show');
+    playbackAudio.src='';audioData.value='';chunks=[];
   }
+
+  recordBtn.addEventListener('click',async function(){
+    if(!recording){
+      try{
+        stream=await navigator.mediaDevices.getUserMedia({audio:true});
+        mediaRecorder=new MediaRecorder(stream);
+        chunks=[];
+        mediaRecorder.ondataavailable=function(e){if(e.data.size>0)chunks.push(e.data);};
+        mediaRecorder.onstop=function(){
+          var blob=new Blob(chunks,{type:'audio/webm'});
+          playbackAudio.src=URL.createObjectURL(blob);
+          playbackArea.classList.add('show');
+          statusEl.textContent='sounds good ✓';
+          statusEl.className='record-status active';
+          var reader=new FileReader();
+          reader.onload=function(ev){audioData.value=ev.target.result;};
+          reader.readAsDataURL(blob);
+          stream.getTracks().forEach(function(t){t.stop();});
+        };
+        mediaRecorder.start();
+        recording=true;
+        recordBtn.classList.add('recording');
+        recordBtn.innerHTML='⏹';
+        statusEl.textContent='recording…';
+        statusEl.className='record-status active';
+      } catch(err){
+        statusEl.textContent='mic access needed — check your browser settings';
+      }
+    } else {
+      mediaRecorder.stop();
+      recording=false;
+      recordBtn.classList.remove('recording');
+      recordBtn.innerHTML='🎙';
+    }
+  });
+  redoBtn.addEventListener('click',reset);
+})();
+
+/* Form submit */
+(function(){
+  var form=document.getElementById('ctForm');
+  var confirm=document.getElementById('confirm');
+  var submitBtn=document.getElementById('submitBtn');
+  var formStatus=document.getElementById('formStatus');
+
+  form.addEventListener('submit',async function(e){
+    e.preventDefault();
+    submitBtn.disabled=true;
+    submitBtn.textContent='Sending…';
+    formStatus.className='form-status sending';
+    formStatus.textContent='Sending…';
+    var data=new FormData(form);
+    // EDIT POINT 6: replace YOUR_FORM_ID with your Formspree ID from formspree.io
+    try{
+      var res=await fetch('https://formspree.io/f/YOUR_FORM_ID',{
+        method:'POST',body:data,
+        headers:{Accept:'application/json'}
+      });
+      if(res.ok){
+        formStatus.className='form-status';
+        form.style.display='none';
+        confirm.classList.add('show');
+        confirm.scrollIntoView({behavior:'smooth',block:'center'});
+      } else { throw new Error(); }
+    } catch(err){
+      formStatus.className='form-status error';
+      formStatus.textContent='Something went wrong — email me at mycreativetruth@gmail.com';
+      submitBtn.disabled=false;
+      submitBtn.textContent='Send it →';
+    }
+  });
 })();
 </script>
-
-<!-- Calendly script — loads the embed -->
-<script src="https://assets.calendly.com/assets/external/widget.js" async></script>
-
 </body>
 </html>
