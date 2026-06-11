@@ -307,13 +307,13 @@
         <!-- EDIT POINT 4: first question -->
         <div class="field">
           <label for="q1">What does living your best creative life look like — and why does it matter to you?</label>
-          <textarea id="q1" name="q1" rows="3" required></textarea>
+          <textarea id="q1" name="q1" rows="3"></textarea>
         </div>
 
         <!-- EDIT POINT 5: second question -->
         <div class="field">
           <label for="q2">What's been stopping you? Just be honest. I like to listen.</label>
-          <textarea id="q2" name="q2" rows="3" required></textarea>
+          <textarea id="q2" name="q2" rows="3"></textarea>
         </div>
 
       </div>
@@ -433,7 +433,7 @@
     var data=new FormData(form);
     // EDIT POINT 6: replace YOUR_FORM_ID with your Formspree ID from formspree.io
     try{
-      var res=await fetch('https://formspree.io/f/YOUR_FORM_ID',{
+      var res=await fetch('https://formspree.io/f/xlgkwbpo',{
         method:'POST',body:data,
         headers:{Accept:'application/json'}
       });
