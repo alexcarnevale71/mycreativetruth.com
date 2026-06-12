@@ -120,6 +120,34 @@
     border-radius:2px;transition:width .25s linear;
   }
 
+  /* CAPTIONS */
+  .caption-box{
+    position:relative;z-index:1;
+    min-height:48px;
+    max-width:420px;
+    width:100%;
+    text-align:center;
+    margin-top:20px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:0 8px;
+  }
+  .caption-text{
+    font-family:"Fraunces",serif;
+    font-weight:300;
+    font-style:italic;
+    font-size:clamp(0.88rem,2.8vw,1.05rem);
+    line-height:1.5;
+    color:var(--accent);
+    opacity:0;
+    transition:opacity 0.5s ease;
+    text-shadow:0 0 20px rgba(245,200,66,0.25);
+  }
+  .caption-text.visible{
+    opacity:0.85;
+  }
+
   /* FORM */
   .form-wrap{width:100%;max-width:var(--maxw);}
   .fields{display:flex;flex-direction:column;gap:28px;margin-bottom:32px;}
@@ -263,11 +291,12 @@
     <div class="progress-wrap" aria-hidden="true">
       <div class="progress-bar" id="progressBar"></div>
     </div>
-    <!-- EDIT POINT 2: nudge text under play button -->
-    <p class="click-me" style="margin-top:14px;">click me</p>
+    <div class="caption-box">
+      <p class="caption-text" id="captionText"></p>
+    </div>
     <audio id="audio" preload="none">
-      <!-- EDIT POINT 3: your voice note file -->
-      <!-- <source src="voice-note.mp3" type="audio/mpeg"> -->
+      <source src="voice-note.mp3" type="audio/mpeg">
+      <track id="captionTrack" kind="captions" src="captions.vtt" srclang="en" default>
     </audio>
   </div>
 
@@ -339,15 +368,71 @@
 </footer>
 
 <script>
-/* Alex's voice player */
+/* Alex's voice player with captions */
 (function(){
   var btn=document.getElementById('play');
   var icon=document.getElementById('playIcon');
   var bar=document.getElementById('progressBar');
   var audio=document.getElementById('audio');
+  var captionEl=document.getElementById('captionText');
   var playPath='M8 5v14l11-7z';
   var pausePath='M6 5h4v14H6zM14 5h4v14h-4z';
-  if(!audio.querySelector('source')) return;
+  var cues=[];
+  var currentCue=-1;
+
+  // Parse VTT manually for cross-browser reliability
+  function parseVTT(text){
+    var lines=text.split('
+');
+    var result=[];
+    var i=0;
+    while(i<lines.length){
+      var line=lines[i].trim();
+      if(line.indexOf('-->')>-1){
+        var parts=line.split('-->');
+        var start=toSeconds(parts[0].trim());
+        var end=toSeconds(parts[1].trim());
+        var cueText='';
+        i++;
+        while(i<lines.length&&lines[i].trim()!==''){
+          cueText+=(cueText?'
+':'')+lines[i].trim();
+          i++;
+        }
+        if(cueText) result.push({start:start,end:end,text:cueText});
+      }
+      i++;
+    }
+    return result;
+  }
+  function toSeconds(t){
+    var p=t.split(':');
+    if(p.length===3) return parseFloat(p[0])*3600+parseFloat(p[1])*60+parseFloat(p[2]);
+    return parseFloat(p[0])*60+parseFloat(p[1]);
+  }
+
+  fetch('captions.vtt')
+    .then(function(r){return r.text();})
+    .then(function(t){cues=parseVTT(t);})
+    .catch(function(){});
+
+  function updateCaption(time){
+    var found=-1;
+    for(var i=0;i<cues.length;i++){
+      if(time>=cues[i].start&&time<cues[i].end){found=i;break;}
+    }
+    if(found!==currentCue){
+      currentCue=found;
+      if(found>-1){
+        captionEl.textContent=cues[found].text;
+        captionEl.classList.add('visible');
+      } else {
+        captionEl.classList.remove('visible');
+        setTimeout(function(){if(!captionEl.classList.contains('visible')) captionEl.textContent='';},500);
+      }
+    }
+  }
+
   btn.addEventListener('click',function(){
     var p=btn.classList.toggle('is-playing');
     icon.querySelector('path').setAttribute('d',p?pausePath:playPath);
@@ -355,11 +440,15 @@
   });
   audio.addEventListener('timeupdate',function(){
     if(audio.duration) bar.style.width=(audio.currentTime/audio.duration*100)+'%';
+    updateCaption(audio.currentTime);
   });
   audio.addEventListener('ended',function(){
     btn.classList.remove('is-playing');
     icon.querySelector('path').setAttribute('d',playPath);
     bar.style.width='0%';
+    captionEl.classList.remove('visible');
+    setTimeout(function(){captionEl.textContent='';},500);
+    currentCue=-1;
   });
 })();
 
