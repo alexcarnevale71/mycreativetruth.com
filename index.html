@@ -382,8 +382,7 @@
 
   // Parse VTT manually for cross-browser reliability
   function parseVTT(text){
-    var lines=text.split('
-');
+    var lines=text.split(String.fromCharCode(10));
     var result=[];
     var i=0;
     while(i<lines.length){
@@ -395,8 +394,7 @@
         var cueText='';
         i++;
         while(i<lines.length&&lines[i].trim()!==''){
-          cueText+=(cueText?'
-':'')+lines[i].trim();
+          cueText+=(cueText?' ':'')+lines[i].trim();
           i++;
         }
         if(cueText) result.push({start:start,end:end,text:cueText});
