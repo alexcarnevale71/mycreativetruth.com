@@ -483,11 +483,18 @@
     if(!recording){
       try{
         stream=await navigator.mediaDevices.getUserMedia({audio:true});
-        mediaRecorder=new MediaRecorder(stream);
+        var mime='';
+        if(window.MediaRecorder&&MediaRecorder.isTypeSupported){
+          if(MediaRecorder.isTypeSupported('audio/webm')) mime='audio/webm';
+          else if(MediaRecorder.isTypeSupported('audio/mp4')) mime='audio/mp4';
+        }
+        mediaRecorder=mime?new MediaRecorder(stream,{mimeType:mime}):new MediaRecorder(stream);
         chunks=[];
         mediaRecorder.ondataavailable=function(e){if(e.data.size>0)chunks.push(e.data);};
         mediaRecorder.onstop=function(){
-          var blob=new Blob(chunks,{type:'audio/webm'});
+          var blobType=(mediaRecorder&&mediaRecorder.mimeType)?mediaRecorder.mimeType:'audio/webm';
+          var blob=new Blob(chunks,{type:blobType});
+          window._audioBlobType=blobType;
           playbackAudio.src=URL.createObjectURL(blob);
           playbackArea.classList.add('show');
           statusEl.textContent='sounds good ✓';
@@ -529,12 +536,13 @@
     e.preventDefault();
     submitBtn.disabled=true;
     submitBtn.textContent='Sending…';
-    formStatus.className='form-status sending';
-    formStatus.textContent='Sending…';
+    formStatus.className='form-status';
+    formStatus.textContent='';
     var data=new FormData(form);
     // Append audio blob as actual file if recorded
     if(window._audioBlob){
-      data.append('voice_note', window._audioBlob, 'voice-note.webm');
+      var ext=(window._audioBlobType&&window._audioBlobType.indexOf('mp4')>-1)?'mp4':'webm';
+      data.append('voice_note', window._audioBlob, 'voice-note.'+ext);
       data.delete('audioData'); // remove base64 version
     }
     try{
