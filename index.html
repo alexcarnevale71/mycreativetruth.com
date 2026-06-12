@@ -292,7 +292,8 @@
       <div class="progress-bar" id="progressBar"></div>
     </div>
     <div class="caption-box">
-      <p class="caption-text" id="captionText"></p>
+      <p class="click-me" id="clickMe">click me</p>
+      <p class="caption-text" id="captionText" style="display:none;"></p>
     </div>
     <audio id="audio" preload="none">
       <source src="voice-note.mp3" type="audio/mpeg">
@@ -431,9 +432,17 @@
     }
   }
 
+  var clickMe=document.getElementById('clickMe');
   btn.addEventListener('click',function(){
     var p=btn.classList.toggle('is-playing');
     icon.querySelector('path').setAttribute('d',p?pausePath:playPath);
+    if(clickMe&&!clickMe.classList.contains('hidden')){
+      clickMe.classList.add('hidden');
+      setTimeout(function(){
+        clickMe.style.display='none';
+        captionEl.style.display='';
+      },400);
+    }
     p?audio.play():audio.pause();
   });
   audio.addEventListener('timeupdate',function(){
