@@ -421,11 +421,11 @@
   }
   if(video){
     video.addEventListener('timeupdate',function(){
-      if(video.currentTime>=30) show();
+      if(video.currentTime>=5) show();
     });
     video.addEventListener('ended',show);
   }
-  setTimeout(show,75000);
+  setTimeout(show,5000);
 })();
 
 
