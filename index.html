@@ -113,6 +113,7 @@
     display:block;width:100%;height:auto;aspect-ratio:16/9;
   }
 
+
   /* OFFER REVEAL */
   .offer-reveal{
     width:100%;max-width:560px;
@@ -132,6 +133,26 @@
     padding:30px 24px;
     text-align:center;
   }
+  .get-list{
+    list-style:none;
+    padding:0;
+    margin:0 auto 22px;
+    max-width:34ch;
+    text-align:left;
+    display:flex;
+    flex-direction:column;
+    gap:9px;
+  }
+  .get-list li{
+    color:var(--ink-soft);
+    font-size:0.93rem;
+    line-height:1.5;
+  }
+  .get-list li span{
+    color:var(--accent);
+    margin-right:9px;
+  }
+
   .offer-name{
     font-family:"Fraunces",serif;font-weight:300;font-style:italic;
     font-size:1.15rem;color:var(--ink);
@@ -191,7 +212,7 @@
     position:relative;z-index:1;
     width:86px;height:86px;border-radius:50%;
     border:1px solid rgba(255,255,255,0.2);
-    background:rgba(255,255,255,0.05);
+    background:rgba(255,255,255,0.04);
     backdrop-filter:blur(3px);color:var(--ink);cursor:pointer;
     display:flex;align-items:center;justify-content:center;
     transition:transform .22s ease,background .22s ease,border-color .22s ease;
@@ -199,7 +220,7 @@
   }
   .play:hover,.play:active{
     transform:scale(1.07);
-    background:rgba(255,255,255,0.09);
+    background:rgba(255,255,255,0.04);
     border-color:rgba(255,255,255,0.35);
   }
   .play:focus-visible{outline:none;box-shadow:0 0 0 3px rgba(255,255,255,0.18);}
@@ -207,7 +228,7 @@
   .progress-wrap{
     position:relative;z-index:1;
     width:72px;height:2px;
-    background:rgba(255,255,255,0.08);
+    background:rgba(255,255,255,0.04);
     border-radius:2px;margin-top:18px;overflow:hidden;
   }
   .progress-bar{
@@ -282,7 +303,7 @@
     transition:transform .2s ease,background .2s ease,border-color .2s ease;
     -webkit-tap-highlight-color:transparent;
   }
-  .record-btn:hover{transform:scale(1.05);background:rgba(255,255,255,0.08);}
+  .record-btn:hover{transform:scale(1.05);background:rgba(255,255,255,0.04);}
   .record-btn.recording{
     border-color:rgba(220,60,60,0.7);
     background:rgba(220,60,60,0.08);
@@ -386,18 +407,23 @@
   <!-- VIDEO. Upload your video as video.mp4 to the repo (GitHub web upload limit ~25MB, compress in CapCut).
        Prefer YouTube instead? Delete the <video> block and uncomment the iframe. -->
   <div class="video-wrap">
-    <video id="heroVideo" controls playsinline preload="metadata">
-      <source src="video.mp4" type="video/mp4">
-    </video>
-    <!-- <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID" title="Creative Truth" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->
+    <iframe src="https://www.youtube.com/embed/PgI6NyzNrGY?rel=0&modestbranding=1" title="Creative Truth" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
   </div>
+
+
+
 
   <!-- OFFER — revealed after 30s of the video (fallback: 75s on page) -->
   <div class="offer-reveal" id="offerReveal">
     <div class="offer-card">
       <p class="offer-name">The Creative Truth Mastermind</p>
+      <!-- EDIT POINT: adjust these deliverables to exactly what the Mastermind includes -->
+      <ul class="get-list">
+        <li><span>→</span> Weekly live calls with Alex</li>
+        <li><span>→</span> A community of purpose-driven creators</li>
+      </ul>
       <!-- EDIT POINT: paste your Circle paywall checkout link in the href below -->
-      <a class="offer-btn" href="https://creative-truth-mastermind.circle.so/checkout/now" target="_blank" rel="noopener">Join the Community →</a>
+      <a class="offer-btn" href="YOUR_CIRCLE_LINK" target="_blank" rel="noopener">Join the Community →</a>
     </div>
   </div>
 
@@ -418,12 +444,6 @@
     if(shown) return;
     shown=true;
     reveal.classList.add('show');
-  }
-  if(video){
-    video.addEventListener('timeupdate',function(){
-      if(video.currentTime>=5) show();
-    });
-    video.addEventListener('ended',show);
   }
   setTimeout(show,5000);
 })();
